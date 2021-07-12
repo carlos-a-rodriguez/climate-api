@@ -2,6 +2,7 @@ import os
 
 from dotenv import load_dotenv
 from flask import Flask
+from flask_migrate import Migrate
 from flask_restful import Api, Resource
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import CheckConstraint, MetaData
@@ -26,6 +27,8 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = (
 )
 api = Api(app)
 db = SQLAlchemy(app, metadata=metadata)
+
+Migrate(app, db)
 
 # MODELS
 
