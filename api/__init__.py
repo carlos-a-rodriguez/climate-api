@@ -8,6 +8,8 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import CheckConstraint, MetaData
 
 
+# SETUP
+
 load_dotenv(".env")
 
 naming_convention = {
