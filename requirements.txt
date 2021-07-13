@@ -2,4 +2,5 @@ Flask
 Flask-Migrate
 Flask-Restful
 Flask-SQLAlchemy
+marshmallow
 python-dotenv
