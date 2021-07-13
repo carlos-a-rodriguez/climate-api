@@ -49,7 +49,7 @@ class Record(db.Model):
 
 # API
 
-class Record(Resource):
+class RecordEndPoint(Resource):
     def delete(self, record_id):
         return {"method": "DELETE"}
 
@@ -60,10 +60,10 @@ class Record(Resource):
         return {"method": "PUT"}
 
 
-class NewRecord(Resource):
+class NewRecordEndPoint(Resource):
     def post(self):
         return {"method": "POST"}
 
 
-api.add_resource(Record, "/record/<int:record_id>")
-api.add_resource(NewRecord, "/record")
+api.add_resource(RecordEndPoint, "/record/<int:record_id>")
+api.add_resource(NewRecordEndPoint, "/record")
