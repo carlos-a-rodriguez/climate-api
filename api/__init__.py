@@ -80,7 +80,16 @@ class RecordResource(Resource):
         return {"method": "DELETE"}
 
     def get(self, record_id):
-        return {"method": "GET"}
+        record = Record.query.get(record_id)
+        if not record:
+            return {"record": {}, "errors": ["record not found"]}, 404
+        return (
+            {
+                "record": record_schema.dump(record),
+                "errors": []
+            },
+            200
+        )
 
     def put(self, record_id):
         return {"method": "PUT"}
