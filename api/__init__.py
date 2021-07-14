@@ -77,7 +77,25 @@ records_schema = RecordSchema(many=True)
 
 class RecordResource(Resource):
     def delete(self, record_id):
-        return {"method": "DELETE"}
+        record = Record.query.get(record_id)
+        if not record:
+            return {"record": {}, "errors": ["record not found"]}, 404
+        
+        db.session.delete(record)
+        db.session.commit()
+
+        # deleted record no longer has a valid record_id
+        delete_record_schema = RecordSchema(
+            only=("timestamp", "temperature", "humidity")
+        )
+
+        return (
+            {
+                "record": delete_record_schema.dump(record),
+                "errors": []
+            },
+            200
+        )
 
     def get(self, record_id):
         record = Record.query.get(record_id)
