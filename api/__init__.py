@@ -92,7 +92,7 @@ class RecordResource(Resource):
         return (
             {
                 "record": delete_record_schema.dump(record),
-                "errors": []
+                "errors": [],
             },
             200
         )
@@ -104,13 +104,37 @@ class RecordResource(Resource):
         return (
             {
                 "record": record_schema.dump(record),
-                "errors": []
+                "errors": [],
             },
             200
         )
 
     def put(self, record_id):
-        return {"method": "PUT"}
+        record = Record.query.get(record_id)
+        if not record:
+            return {"record": {}, "errors": ["record not found"]}, 404
+
+        body = request.get_json()
+
+        try:
+            data = record_schema.load(body, partial=True)
+        except ValidationError as e:
+            return {"record": {}, "errors": e.messages}, 422
+
+        for attr, value in data.items():
+            setattr(record, attr, value)
+
+        db.session.add(record)
+        db.session.commit()
+        db.session.refresh(record)
+
+        return (
+            {
+                "record": record_schema.dump(record),
+                "errors": [],
+            },
+            200
+        )
 
 
 class NewRecordResource(Resource):
@@ -131,7 +155,7 @@ class NewRecordResource(Resource):
         return (
             {
                 "record": record_schema.dump(record), 
-                "errors": []
+                "errors": [],
             },
             201
         )    
