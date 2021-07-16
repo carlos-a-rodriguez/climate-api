@@ -161,5 +161,5 @@ class NewRecordResource(Resource):
         )    
 
 
-api.add_resource(RecordResource, "/record/<int:record_id>")
-api.add_resource(NewRecordResource, "/record")
+api.add_resource(RecordResource, "/api/record/<int:record_id>")
+api.add_resource(NewRecordResource, "/api/record")
