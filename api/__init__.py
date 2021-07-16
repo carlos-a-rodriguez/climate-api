@@ -39,7 +39,7 @@ class Record(db.Model):
     __tablename__ = "records"
 
     record_id = db.Column(db.Integer, primary_key=True)
-    timestamp = db.Column(db.Float, nullable=False, unique=True)
+    timestamp = db.Column(db.Float, nullable=False, unique=True, index=True)
     temperature = db.Column(db.Float, nullable=False)
     humidity = db.Column(db.Float, nullable=False)
 
