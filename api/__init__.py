@@ -1,4 +1,6 @@
+import json
 import os
+import time
 
 from dotenv import load_dotenv
 from flask import Flask, request
@@ -70,8 +72,12 @@ class RecordSchema(Schema):
                 "humidity must be between 0 and 100 percent (inclusive)"
             )
 
+class QuerySchema(Schema):
+    min_timestamp = fields.Float()
+    max_timestamp = fields.Float()
+
+query_schema = QuerySchema()
 record_schema = RecordSchema()
-records_schema = RecordSchema(many=True)
 
 # API
 
@@ -158,8 +164,37 @@ class NewRecordResource(Resource):
                 "errors": [],
             },
             201
-        )    
+        )
+
+
+class RecordsResource(Resource):
+    def get(self):
+        body = request.get_json()
+
+        try:
+            data = query_schema.load(body)
+        except ValidationError as e:
+            return {"records": [], "errors": e.messages}, 422
+
+        min_timestamp = data.get("min_timestamp") or 0
+        max_timestamp = data.get("max_timestamp") or time.time()
+
+        records = (
+            Record.query.filter(
+                min_timestamp <= Record.timestamp,
+                max_timestamp >= Record.timestamp
+            ).all()
+        )
+
+        return (
+            {
+                "records": record_schema.dump(records, many=True),
+                "errors": [],
+            },
+            200
+        )
 
 
 api.add_resource(RecordResource, "/api/record/<int:record_id>")
 api.add_resource(NewRecordResource, "/api/record")
+api.add_resource(RecordsResource, "/api/records")
