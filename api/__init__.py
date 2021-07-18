@@ -1,6 +1,5 @@
-import json
+import datetime
 import os
-import time
 
 from dotenv import load_dotenv
 from flask import Flask, request
@@ -177,7 +176,10 @@ class RecordsResource(Resource):
             return {"records": [], "errors": e.messages}, 422
 
         min_timestamp = data.get("min_timestamp") or 0
-        max_timestamp = data.get("max_timestamp") or time.time()
+        max_timestamp = (
+            data.get("max_timestamp")
+            or datetime.datetime.utcnow().timestmap()
+        )
 
         records = (
             Record.query.filter(
