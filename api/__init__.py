@@ -146,10 +146,8 @@ class RecordResource(Resource):
 
 class RecordsResource(Resource):
     def get(self):
-        body = request.get_json()
-
         try:
-            data = query_schema.load(body)
+            data = query_schema.load(request.args)
         except ValidationError as e:
             return {"records": [], "errors": e.messages}, 422
 
