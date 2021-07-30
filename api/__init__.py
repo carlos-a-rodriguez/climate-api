@@ -42,7 +42,7 @@ class Record(db.Model):
     __tablename__ = "records"
 
     record_id = db.Column(db.Integer, primary_key=True)
-    _timestamp = db.Column("timestamp", db.Float, nullable=False, unique=True, index=True)
+    timestamp = db.Column("timestamp", db.Float, nullable=False, unique=True, index=True)
     temperature = db.Column(db.Float, nullable=False)
     humidity = db.Column(db.Float, nullable=False)
 
@@ -51,23 +51,11 @@ class Record(db.Model):
         CheckConstraint("humidity >= 0 AND humidity <= 100", name="humidity")
     )
 
-    @property
-    def timestamp(self):
-        """ convert float into tz aware datetime.datetime """
-        return (
-            datetime.datetime.utcfromtimestamp(self._timestamp)
-            .replace(tzinfo=datetime.timezone.utc)
-        )
-
-    @timestamp.setter
-    def timestamp(self, value):
-        self._timestamp = value.timestamp()
-
 # SCHEMAS
 
 class RecordSchema(Schema):
     record_id = fields.Int(dump_only=True)
-    timestamp = fields.AwareDateTime(format="iso", required=True)
+    timestamp = fields.Float(required=True)
     temperature = fields.Float(required=True)
     humidity = fields.Float(required=True)
 
@@ -86,8 +74,8 @@ class RecordSchema(Schema):
             )
 
 class QuerySchema(Schema):
-    min_timestamp = fields.AwareDateTime(format="iso")
-    max_timestamp = fields.AwareDateTime(format="iso")
+    min_timestamp = fields.Float()
+    max_timestamp = fields.Float()
 
 query_schema = QuerySchema()
 record_schema = RecordSchema()
@@ -189,13 +177,13 @@ class RecordsResource(Resource):
         except ValidationError as e:
             return {"records": [], "errors": e.messages}, 422
 
-        min_timestamp = data.get("min_timestamp").timestamp() or 0
-        max_timestamp = data.get("max_timestamp").timestamp() or datetime.datetime.utcnow()
+        min_timestamp = data.get("min_timestamp") or 0
+        max_timestamp = data.get("max_timestamp") or datetime.datetime.utcnow().timestamp()
 
         records = (
             Record.query.filter(
-                min_timestamp <= Record._timestamp,
-                max_timestamp >= Record._timestamp
+                min_timestamp <= Record.timestamp,
+                max_timestamp >= Record.timestamp
             ).all()
         )
 
