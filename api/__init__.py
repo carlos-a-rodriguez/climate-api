@@ -74,8 +74,8 @@ class RecordSchema(Schema):
             )
 
 class QuerySchema(Schema):
-    min_timestamp = fields.Float()
-    max_timestamp = fields.Float()
+    min_timestamp = fields.Float(missing=0)
+    max_timestamp = fields.Float(missing=datetime.datetime.utcnow().timestamp())
 
 query_schema = QuerySchema()
 record_schema = RecordSchema()
@@ -177,13 +177,10 @@ class RecordsResource(Resource):
         except ValidationError as e:
             return {"records": [], "errors": e.messages}, 422
 
-        min_timestamp = data.get("min_timestamp") or 0
-        max_timestamp = data.get("max_timestamp") or datetime.datetime.utcnow().timestamp()
-
         records = (
             Record.query.filter(
-                min_timestamp <= Record.timestamp,
-                max_timestamp >= Record.timestamp
+                data["min_timestamp"] <= Record.timestamp,
+                data["max_timestamp"] >= Record.timestamp
             ).all()
         )
 
