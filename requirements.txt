@@ -3,5 +3,7 @@ Flask-CORS
 Flask-Migrate
 Flask-Restful
 Flask-SQLAlchemy
+Flask-Testing
 marshmallow
+pytest
 python-dotenv
