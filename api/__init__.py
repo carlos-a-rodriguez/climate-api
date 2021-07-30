@@ -144,30 +144,6 @@ class RecordResource(Resource):
         )
 
 
-class NewRecordResource(Resource):
-    def post(self):
-        body = request.get_json()
-
-        try:
-            data = record_schema.load(body)
-        except ValidationError as e:
-            return {"record": {}, "errors": e.messages}, 422
-
-        record = Record(**data)
-
-        db.session.add(record)
-        db.session.commit()
-        db.session.refresh(record)
-
-        return (
-            {
-                "record": record_schema.dump(record), 
-                "errors": [],
-            },
-            201
-        )
-
-
 class RecordsResource(Resource):
     def get(self):
         body = request.get_json()
@@ -192,7 +168,28 @@ class RecordsResource(Resource):
             200
         )
 
+    def post(self):
+        body = request.get_json()
 
-api.add_resource(RecordResource, "/api/record/<int:record_id>")
-api.add_resource(NewRecordResource, "/api/record")
+        try:
+            data = record_schema.load(body)
+        except ValidationError as e:
+            return {"record": {}, "errors": e.messages}, 422
+
+        record = Record(**data)
+
+        db.session.add(record)
+        db.session.commit()
+        db.session.refresh(record)
+
+        return (
+            {
+                "record": record_schema.dump(record), 
+                "errors": [],
+            },
+            201
+        )
+
+
+api.add_resource(RecordResource, "/api/records/<int:record_id>")
 api.add_resource(RecordsResource, "/api/records")
