@@ -52,6 +52,17 @@ class APITestCase(TestCase):
             response.json
         )
 
+    def test_delete_record_404(self):
+        response = self.client.delete("/api/records/100")
+        self.assert404(response)
+        self.assertDictEqual(
+            {
+                "record": {},
+                "errors": ["record not found"]
+            },
+            response.json
+        )
+
     def test_get_record(self):
         response = self.client.get("/api/records/1")
         self.assert200(response)
@@ -64,6 +75,17 @@ class APITestCase(TestCase):
                     "humidity": 50.0
                 },
                 "errors": []
+            },
+            response.json
+        )
+
+    def test_get_record_404(self):
+        response = self.client.get("/api/records/100")
+        self.assert404(response)
+        self.assertDictEqual(
+            {
+                "record": {},
+                "errors": ["record not found"]
             },
             response.json
         )
@@ -188,6 +210,83 @@ class APITestCase(TestCase):
                     "humidity": 50.0
                 },
                 "errors": []
+            },
+            response.json
+        )
+
+    def test_put_record_404(self):
+        response = self.client.put(
+            "/api/records/100",
+            data=json.dumps(
+                dict(
+                    timestamp=500.0,
+                )
+            ),
+            headers={"content-type": "application/json"}
+        )
+        self.assert404(response)
+        self.assertDictEqual(
+            {
+                "record": {},
+                "errors": ["record not found"]
+            },
+            response.json
+        )
+
+    def test_validate_max_parameters(self):
+        """ validate that temperature and humidity are not too high """
+        response = self.client.post(
+            "/api/records",
+            data=json.dumps(
+                dict(
+                    timestamp=500.0,
+                    temperature=1000.0,
+                    humidity=1000.0
+                )
+            ),
+            headers={"content-type": "application/json"}
+        )
+        self.assertStatus(response, 422)
+        self.assertDictEqual(
+            {
+                "record": {},
+                "errors": {
+                    "temperature": [
+                        "temperature must be between -100 and 100 degrees Celcius (inclusive)"
+                    ],
+                    "humidity": [
+                        "humidity must be between 0 and 100 percent (inclusive)"
+                    ]
+                },
+            },
+            response.json
+        )
+
+    def test_validate_min_parameters(self):
+        """ validate that temperature and humidity are not too low """
+        response = self.client.post(
+            "/api/records",
+            data=json.dumps(
+                dict(
+                    timestamp=500.0,
+                    temperature=-1000.0,
+                    humidity=-1000.0
+                )
+            ),
+            headers={"content-type": "application/json"}
+        )
+        self.assertStatus(response, 422)
+        self.assertDictEqual(
+            {
+                "record": {},
+                "errors": {
+                    "temperature": [
+                        "temperature must be between -100 and 100 degrees Celcius (inclusive)"
+                    ],
+                    "humidity": [
+                        "humidity must be between 0 and 100 percent (inclusive)"
+                    ]
+                },
             },
             response.json
         )
