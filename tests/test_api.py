@@ -190,6 +190,30 @@ class APITestCase(TestCase):
             response.json
         )
 
+    def test_post_record_invalid_param(self):
+        response = self.client.post(
+            "/api/records",
+            data=json.dumps(
+                dict(
+                    timestamp=500.0,
+                    temperature=15.0,
+                    humidity=10.0,
+                    precipitation=0.5
+                )
+            ),
+            headers={"content-type": "application/json"}
+        )
+        self.assertStatus(response, 422)
+        self.assertDictEqual(
+            {
+                "record": {},
+                "errors": {
+                    "precipitation": ["Unknown field."],
+                }
+            },
+            response.json
+        )
+
     def test_put_record(self):
         response = self.client.put(
             "/api/records/1",
