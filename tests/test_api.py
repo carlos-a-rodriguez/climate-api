@@ -47,7 +47,7 @@ class APITestCase(TestCase):
                     "temperature": 25.0,
                     "humidity": 50.0
                 },
-                "errors": []
+                "errors": {}
             },
             response.json
         )
@@ -58,7 +58,9 @@ class APITestCase(TestCase):
         self.assertDictEqual(
             {
                 "record": {},
-                "errors": ["record not found"]
+                "errors": {
+                    "record_id": "does not exist"
+                }
             },
             response.json
         )
@@ -74,7 +76,7 @@ class APITestCase(TestCase):
                     "temperature": 25.0,
                     "humidity": 50.0
                 },
-                "errors": []
+                "errors": {}
             },
             response.json
         )
@@ -85,7 +87,9 @@ class APITestCase(TestCase):
         self.assertDictEqual(
             {
                 "record": {},
-                "errors": ["record not found"]
+                "errors": {
+                    "record_id": "does not exist"
+                }
             },
             response.json
         )
@@ -96,7 +100,7 @@ class APITestCase(TestCase):
         self.assertDictEqual(
             {
                 "records": [],
-                "errors": []
+                "errors": {}
             },
             response.json
         )
@@ -113,7 +117,7 @@ class APITestCase(TestCase):
                         "humidity": 50.0
                     },
                 ],
-                "errors": []
+                "errors": {}
             },
             response.json
         )
@@ -124,7 +128,7 @@ class APITestCase(TestCase):
         self.assertDictEqual(
             {
                 "records": [],
-                "errors": []
+                "errors": {}
             },
             response.json
         )
@@ -141,7 +145,7 @@ class APITestCase(TestCase):
                         "humidity": 50.0
                     },
                 ],
-                "errors": []
+                "errors": {}
             },
             response.json
         )
@@ -159,7 +163,7 @@ class APITestCase(TestCase):
                         "humidity": 50.0
                     },
                 ],
-                "errors": []
+                "errors": {}
             },
             response.json
         )
@@ -185,7 +189,7 @@ class APITestCase(TestCase):
                     "temperature": 15.0,
                     "humidity": 10.0
                 },
-                "errors": []
+                "errors": {}
             },
             response.json
         )
@@ -233,7 +237,7 @@ class APITestCase(TestCase):
                     "temperature": 25.0,
                     "humidity": 50.0
                 },
-                "errors": []
+                "errors": {}
             },
             response.json
         )
@@ -252,7 +256,9 @@ class APITestCase(TestCase):
         self.assertDictEqual(
             {
                 "record": {},
-                "errors": ["record not found"]
+                "errors": {
+                    "record_id": "does not exist"
+                }
             },
             response.json
         )

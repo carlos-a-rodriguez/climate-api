@@ -86,7 +86,12 @@ class RecordResource(Resource):
     def delete(self, record_id):
         record = Record.query.get(record_id)
         if not record:
-            return {"record": {}, "errors": ["record not found"]}, 404
+            return {
+                "record": {},
+                "errors": {
+                    "record_id": "does not exist"
+                }
+            }, 404
         
         db.session.delete(record)
         db.session.commit()
@@ -99,7 +104,7 @@ class RecordResource(Resource):
         return (
             {
                 "record": delete_record_schema.dump(record),
-                "errors": [],
+                "errors": {},
             },
             200
         )
@@ -107,11 +112,17 @@ class RecordResource(Resource):
     def get(self, record_id):
         record = Record.query.get(record_id)
         if not record:
-            return {"record": {}, "errors": ["record not found"]}, 404
+            return {
+                "record": {},
+                "errors": {
+                    "record_id": "does not exist"
+                }
+            }, 404
+
         return (
             {
                 "record": record_schema.dump(record),
-                "errors": [],
+                "errors": {},
             },
             200
         )
@@ -119,7 +130,12 @@ class RecordResource(Resource):
     def put(self, record_id):
         record = Record.query.get(record_id)
         if not record:
-            return {"record": {}, "errors": ["record not found"]}, 404
+            return {
+                "record": {},
+                "errors": {
+                    "record_id": "does not exist"
+                }
+            }, 404
 
         body = request.get_json()
 
@@ -138,7 +154,7 @@ class RecordResource(Resource):
         return (
             {
                 "record": record_schema.dump(record),
-                "errors": [],
+                "errors": {},
             },
             200
         )
@@ -161,7 +177,7 @@ class RecordsResource(Resource):
         return (
             {
                 "records": record_schema.dump(records, many=True),
-                "errors": [],
+                "errors": {},
             },
             200
         )
@@ -183,7 +199,7 @@ class RecordsResource(Resource):
         return (
             {
                 "record": record_schema.dump(record), 
-                "errors": [],
+                "errors": {},
             },
             201
         )
