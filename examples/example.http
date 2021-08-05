@@ -1,0 +1,43 @@
+GET http://localhost:5000/api/records
+
+###
+
+GET http://localhost:5000/api/records?min_timestamp=1627967578
+
+###
+
+GET http://localhost:5000/api/records?max_timestamp=1627967578
+
+###
+
+GET http://localhost:5000/api/records?min_timestamp=1627967577&max_timestamp=1627967579
+
+###
+
+GET http://localhost:5000/api/records/1
+
+###
+
+POST http://localhost:5000/api/records
+Content-Type: application/json
+
+{
+    "timestamp": "{{$timestamp}}",
+    "temperature": 25.9,
+    "humidity": 43.0
+}
+
+###
+
+PUT http://localhost:5000/api/records/4
+Content-Type: application/json
+
+{
+    "timestamp": "{{$timestamp}}",
+    "temperature": 25.9,
+    "humidity": 44.0
+}
+
+###
+
+DELETE http://localhost:5000/api/records/4
