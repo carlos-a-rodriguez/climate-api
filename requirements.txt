@@ -4,6 +4,7 @@ Flask-Migrate
 Flask-Restful
 Flask-SQLAlchemy
 Flask-Testing
+gunicorn
 marshmallow
 pytest
 python-dotenv
