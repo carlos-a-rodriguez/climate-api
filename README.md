@@ -8,12 +8,12 @@ REST API to add, update and fetch temperature and humidity records from a SQLite
 
 ```json
 {
-    'errors': {},
-    'record': {
-        'humidity': 41.0,
-        'record_id': 2,
-        'temperature': 26.2,
-        'timestamp': 1627967578.225778
+    "errors": {},
+    "record": {
+        "humidity": 41.0,
+        "record_id": 2,
+        "temperature": 26.2,
+        "timestamp": 1627967578.225778
     }
 }
 ```
@@ -24,19 +24,19 @@ REST API to add, update and fetch temperature and humidity records from a SQLite
 
 ```json
 {
-    'errors': {},
-    'records': [
+    "errors": {},
+    "records": [
         {
-            'humidity': 44.0,
-            'record_id': 1,
-            'temperature': 26.4,
-            'timestamp': 1627967034.240592
+            "humidity": 44.0,
+            "record_id": 1,
+            "temperature": 26.4,
+            "timestamp": 1627967034.240592
         },
         {
-            'humidity': 41.0,
-            'record_id': 2,
-            'temperature': 26.2,
-            'timestamp': 1627967578.225778
+            "humidity": 41.0,
+            "record_id": 2,
+            "temperature": 26.2,
+            "timestamp": 1627967578.225778
         }
     ]
 }
