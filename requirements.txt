@@ -6,5 +6,6 @@ Flask-SQLAlchemy
 Flask-Testing
 gunicorn
 marshmallow
+psycopg2-binary
 pytest
 python-dotenv
