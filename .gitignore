@@ -1,6 +1,7 @@
 *.db
 .env
 .flaskenv
+.pytest_cache/
 .venv/
 .vscode/
 __pycache__/
