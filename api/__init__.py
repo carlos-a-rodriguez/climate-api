@@ -75,7 +75,7 @@ class RecordSchema(Schema):
 
 class QuerySchema(Schema):
     min_timestamp = fields.Float(missing=0)
-    max_timestamp = fields.Float(missing=datetime.datetime.utcnow().timestamp())
+    max_timestamp = fields.Float(missing=lambda: datetime.datetime.utcnow().timestamp())
 
 query_schema = QuerySchema()
 record_schema = RecordSchema()
