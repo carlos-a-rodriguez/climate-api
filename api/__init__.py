@@ -10,6 +10,18 @@ from flask_sqlalchemy import SQLAlchemy
 from marshmallow import fields, Schema, validates, ValidationError
 from sqlalchemy import CheckConstraint, MetaData
 
+# CONSTANTS
+
+RESPONSE_404 = (
+    {
+        "record": {},
+        "errors": {
+            "record_id": "does not exist"
+        }
+    },
+    404
+)
+
 
 # SETUP
 
@@ -86,12 +98,7 @@ class RecordResource(Resource):
     def delete(self, record_id):
         record = Record.query.get(record_id)
         if not record:
-            return {
-                "record": {},
-                "errors": {
-                    "record_id": "does not exist"
-                }
-            }, 404
+            return RESPONSE_404
         
         db.session.delete(record)
         db.session.commit()
@@ -112,12 +119,7 @@ class RecordResource(Resource):
     def get(self, record_id):
         record = Record.query.get(record_id)
         if not record:
-            return {
-                "record": {},
-                "errors": {
-                    "record_id": "does not exist"
-                }
-            }, 404
+            return RESPONSE_404
 
         return (
             {
@@ -130,12 +132,7 @@ class RecordResource(Resource):
     def put(self, record_id):
         record = Record.query.get(record_id)
         if not record:
-            return {
-                "record": {},
-                "errors": {
-                    "record_id": "does not exist"
-                }
-            }, 404
+            return RESPONSE_404
 
         body = request.get_json()
 
