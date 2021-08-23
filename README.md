@@ -6,27 +6,50 @@ REST API to add, update and fetch temperature and humidity records from a SQL da
 
 ### setup
 
+Clone the repository:
+
+```shell
+$ git clone https://github.com/carlos-a-rodriguez/climate-api.git
+$ cd climate-api
+```
+
 Add two files to the root directory: `.env` and `.flaskenv`.
 
 Example `.env` file:
 
 ```
 SQLALCHEMY_DATABASE_URI="postgresql://<username>:<password>@localhost:<port>/<dbname>"
-SQLALCHEMY_TRACK_MODIFICATIONS=False
+SQLALCHEMY_TRACK_MODIFICATIONS=True
 ```
 
 Example `.flaskenv` file:
 
 ```
 FLASK_APP=api
-FLASK_ENV=production
+FLASK_ENV=development
 ```
 
-Then migrate the database:
+Create a virtual environment and install the dependencies:
 
+```shell
+$ python3 -m venv .venv
+$ source .venv/bin/activate
+(.venv) $ pip install -r requirements.txt
 ```
-flask db upgrade
+
+Apply the migrations to create the database tables:
+
+```shell
+$ flask db upgrade
 ```
+
+Finally, start the app:
+
+```shell
+flask run
+```
+
+## api
 
 ### single record respose (success)
 
