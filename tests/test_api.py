@@ -281,9 +281,6 @@ class APITestCase(TestCase):
             {
                 "record": {},
                 "errors": {
-                    "temperature": [
-                        "temperature must be between -100 and 100 degrees Celcius (inclusive)"
-                    ],
                     "humidity": [
                         "humidity must be between 0 and 100 percent (inclusive)"
                     ]
@@ -310,9 +307,6 @@ class APITestCase(TestCase):
             {
                 "record": {},
                 "errors": {
-                    "temperature": [
-                        "temperature must be between -100 and 100 degrees Celcius (inclusive)"
-                    ],
                     "humidity": [
                         "humidity must be between 0 and 100 percent (inclusive)"
                     ]

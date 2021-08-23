@@ -59,8 +59,7 @@ class Record(db.Model):
     humidity = db.Column(db.Float, nullable=False)
 
     __table_args__ = (
-        CheckConstraint("temperature >= -100 AND temperature <= 100", name="temperature"),
-        CheckConstraint("humidity >= 0 AND humidity <= 100", name="humidity")
+        CheckConstraint("humidity >= 0 AND humidity <= 100", name="humidity"),
     )
 
 # SCHEMAS
@@ -70,13 +69,6 @@ class RecordSchema(Schema):
     timestamp = fields.Float(required=True)
     temperature = fields.Float(required=True)
     humidity = fields.Float(required=True)
-
-    @validates("temperature")
-    def validate_temperature(self, value):
-        if not (-100 <= value <= 100):
-            raise ValidationError(
-                "temperature must be between -100 and 100 degrees Celcius (inclusive)"
-            )
 
     @validates("humidity")
     def validate_humidity(self, value):
