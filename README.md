@@ -4,6 +4,30 @@ REST API to add, update and fetch temperature and humidity records from a SQL da
 
 ## basic usage
 
+### setup
+
+Add two files to the root directory: `.env` and `.flaskenv`.
+
+Example `.env` file:
+
+```
+SQLALCHEMY_DATABASE_URI="postgresql://<username>:<password>@localhost/<dbname>"
+SQLALCHEMY_TRACK_MODIFICATIONS=False
+```
+
+Example `.flaskenv` file:
+
+```
+FLASK_APP=api
+FLASK_ENV=production
+```
+
+Then migrate the database:
+
+```
+flask db upgrade
+```
+
 ### single record respose (success)
 
 ```json
