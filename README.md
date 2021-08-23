@@ -11,7 +11,7 @@ Add two files to the root directory: `.env` and `.flaskenv`.
 Example `.env` file:
 
 ```
-SQLALCHEMY_DATABASE_URI="postgresql://<username>:<password>@localhost/<dbname>"
+SQLALCHEMY_DATABASE_URI="postgresql://<username>:<password>@localhost:<port>/<dbname>"
 SQLALCHEMY_TRACK_MODIFICATIONS=False
 ```
 
