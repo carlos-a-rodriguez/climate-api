@@ -1,6 +1,6 @@
 # climate-api
 
-REST API to add, update and fetch temperature and humidity records from a SQLite database.
+REST API to add, update and fetch temperature and humidity records from a SQL database.
 
 ## basic usage
 
@@ -64,7 +64,7 @@ optional parameters
 - min_timestamp
     - default: 0
 - max_timestamp
-    - default: UTC now
+    - default: infinity (i.e. no upper bound)
 
 ```
 curl -X GET http://localhost:5000/api/records?min_timestamp=1627967035
