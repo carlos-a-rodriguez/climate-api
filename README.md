@@ -9,8 +9,8 @@ REST API to add, update and fetch temperature and humidity records from a SQL da
 Clone the repository:
 
 ```shell
-$ git clone https://github.com/carlos-a-rodriguez/climate-api.git
-$ cd climate-api
+git clone https://github.com/carlos-a-rodriguez/climate-api.git
+cd climate-api
 ```
 
 Add two files to the root directory: `.env` and `.flaskenv`.
@@ -32,15 +32,15 @@ FLASK_ENV=development
 Create a virtual environment and install the dependencies:
 
 ```shell
-$ python3 -m venv .venv
-$ source .venv/bin/activate
-(.venv) $ pip install -r requirements.txt
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
 ```
 
 Apply the migrations to create the database tables:
 
 ```shell
-$ flask db upgrade
+flask db upgrade
 ```
 
 If using SQLite, the migrations may fail. This is because SQLite requires "[batch](https://alembic.sqlalchemy.org/en/latest/batch.html)" migrations. If so, you can either update the migrations to use batch operations or delete the migrations and regenerate them.
