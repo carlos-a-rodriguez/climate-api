@@ -43,6 +43,15 @@ Apply the migrations to create the database tables:
 $ flask db upgrade
 ```
 
+If using SQLite, the migrations may fail. This is because SQLite requires "[batch](https://alembic.sqlalchemy.org/en/latest/batch.html)" migrations. If so, you can either update the migrations to use batch operations or delete the migrations and regenerate them.
+
+```shell
+rm -rf migrations/
+flask db init
+flask db migrate -m "initial sqlite migration"
+flask db upgrade
+```
+
 Finally, start the app:
 
 ```shell
