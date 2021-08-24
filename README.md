@@ -182,10 +182,10 @@ $ curl -X PUT -H "Content-Type: application/json" -d '{"timestamp":1627969263.95
 {
     "errors": {},
     "record": {
-        "humidity": 41.0,
+        "humidity": 39.0,
         "record_id": 2,
-        "temperature": 26.2,
-        "timestamp": 1627967578.225778
+        "temperature": 26.1,
+        "timestamp": 1627969263.956442
     }
 }
 ```
