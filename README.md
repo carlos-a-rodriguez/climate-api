@@ -60,59 +60,70 @@ flask run
 
 ## api
 
-### single record respose (success)
-
-```json
-{
-    "errors": {},
-    "record": {
-        "humidity": 41.0,
-        "record_id": 2,
-        "temperature": 26.2,
-        "timestamp": 1627967578.225778
-    }
-}
-```
-
-**record** is a dictionary.
-
-### multi-record response (success)
-
-```json
-{
-    "errors": {},
-    "records": [
-        {
-            "humidity": 44.0,
-            "record_id": 1,
-            "temperature": 26.4,
-            "timestamp": 1627967034.240592
-        },
-        {
-            "humidity": 41.0,
-            "record_id": 2,
-            "temperature": 26.2,
-            "timestamp": 1627967578.225778
-        }
-    ]
-}
-```
-
-**records** is a list of dictionaries.
-
-## resources
-
 ### DELETE /api/records/{record_id}
 
 ```
 curl -X DELETE http://localhost:5000/api/records/1
 ```
 
+Possible Responses:
+
+- `200 OK`
+
+    ```json
+    {
+        "record": {
+            "timestamp": 936868149.0,
+            "temperature": 25.0,
+            "humidity": 50.0
+        },
+        "errors": {}
+    },
+    ```
+
+- `404 Not Found`
+
+    ```json
+    {
+        "record": {},
+        "errors": {
+            "record_id": "does not exist"
+        }
+    },
+    ```
+
 ### GET /api/records/{record_id}
 
 ```
-curl -X GET http://localhost:5000/api/records/1
+curl -X GET http://localhost:5000/api/records/2
 ```
+
+Possible Responses:
+
+- `200 OK`
+
+    ```json
+    {
+        "errors": {},
+        "record": {
+            "humidity": 41.0,
+            "record_id": 2,
+            "temperature": 26.2,
+            "timestamp": 1627967578.225778
+        }
+    }
+    ```
+
+- `404 Not Found`
+
+    ```json
+    {
+        "record": {},
+        "errors": {
+            "record_id": "does not exist"
+        }
+    },
+    ```
 
 ### GET /api/records
 
@@ -126,14 +137,118 @@ optional parameters
 curl -X GET http://localhost:5000/api/records?min_timestamp=1627967035
 ```
 
+Possible Responses:
+
+- `200 OK`
+
+    ```json
+    {
+        "errors": {},
+        "records": [
+            {
+                "humidity": 44.0,
+                "record_id": 1,
+                "temperature": 26.4,
+                "timestamp": 1627967034.240592
+            },
+            {
+                "humidity": 41.0,
+                "record_id": 2,
+                "temperature": 26.2,
+                "timestamp": 1627967578.225778
+            }
+        ]
+    }
+    ```
+
 ### PUT /api/records/{record_id}
 
 ```
 curl -X PUT -H "Content-Type: application/json" -d '{"timestamp":1627969263.956442, "temperature":26.1, "humidity":39.0}' localhost:5000/api/records/1
 ```
 
+Possible Responses:
+
+- `200 OK`
+
+    ```json
+    {
+        "errors": {},
+        "record": {
+            "humidity": 41.0,
+            "record_id": 2,
+            "temperature": 26.2,
+            "timestamp": 1627967578.225778
+        }
+    }
+    ```
+
+- `404 Not Found`
+
+    ```json
+    {
+        "record": {},
+        "errors": {
+            "record_id": "does not exist"
+        }
+    },
+    ```
+
+- `422 Unprocessable Entity`
+
+    ```json
+    {
+        "record": {},
+        "errors": {
+            "humidity": [
+                "humidity must be between 0 and 100 percent (inclusive)"
+            ]
+        },
+    },
+    ```
+
 ### POST /api/records
 
 ```
 curl -X POST -H "Content-Type: application/json" -d '{"timestamp":1627969263.956442, "temperature":26.1, "humidity":39.0}' localhost:5000/api/records
 ```
+
+Possible Responses:
+
+- `200 OK`
+
+    ```json
+    {
+        "errors": {},
+        "record": {
+            "humidity": 39.0,
+            "record_id": 3,
+            "temperature": 26.1,
+            "timestamp": 1627969263.956442
+        }
+    }
+    ```
+
+- `404 Not Found`
+
+    ```json
+    {
+        "record": {},
+        "errors": {
+            "record_id": "does not exist"
+        }
+    },
+    ```
+
+- `422 Unprocessable Entity`
+
+    ```json
+    {
+        "record": {},
+        "errors": {
+            "humidity": [
+                "humidity must be between 0 and 100 percent (inclusive)"
+            ]
+        },
+    },
+    ```
