@@ -263,6 +263,17 @@ class APITestCase(TestCase):
             response.json
         )
 
+    def test_put_record_no_arguments(self):
+        response = self.client.put(
+            "/api/records/1",
+            headers={"content-type": "application/json"}
+        )
+        self.assert400(response)
+        self.assertDictEqual(
+            {"message": "The browser (or proxy) sent a request that this server could not understand."},
+            response.json
+        )
+
     def test_validate_max_parameters(self):
         """ validate that temperature and humidity are not too high """
         response = self.client.post(
