@@ -225,7 +225,10 @@ $ curl -X POST -H "Content-Type: application/json" -d '{"timestamp":1627969263.9
 }
 ```
 
-### Errors
+## Errors
+
+
+### Record Not Found
 
 `GET`, `PUT` and `DELETE` will return a `404 Not Found` if the `record_id` is not in the database.
 
@@ -242,9 +245,11 @@ $ curl -X POST -H "Content-Type: application/json" -d '{"timestamp":1627969263.9
 },
 ```
 
+### Invalid Humidity
+
 Humidity is stored as a percent. Any humidity outside of this range will result in a `422 Unprocessable Entity` status code.
 
-#### Example
+#### Response
 
 `422 Unprocessable Entity`
 
@@ -257,4 +262,18 @@ Humidity is stored as a percent. Any humidity outside of this range will result 
         ]
     },
 },
+```
+
+### PUT Without Any Content
+
+To update an existing record, you must submit a change to at least one of the following attributes: `timestamp`, `temperature` or `humidity`. Failure to do so will result in a `400 Bad Request`.
+
+#### Response
+
+`400 Bad Request`
+
+```json
+{
+    "message": "The browser (or proxy) sent a request that this server could not understand."
+}
 ```
