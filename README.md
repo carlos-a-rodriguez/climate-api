@@ -164,7 +164,7 @@ Possible Responses:
 ### PUT /api/records/{record_id}
 
 ```
-curl -X PUT -H "Content-Type: application/json" -d '{"timestamp":1627969263.956442, "temperature":26.1, "humidity":39.0}' localhost:5000/api/records/1
+curl -X PUT -H "Content-Type: application/json" -d '{"timestamp":1627969263.956442, "temperature":26.1, "humidity":39.0}' localhost:5000/api/records/2
 ```
 
 Possible Responses:
