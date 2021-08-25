@@ -1,4 +1,3 @@
-import datetime
 import os
 
 from dotenv import load_dotenv
@@ -12,15 +11,7 @@ from sqlalchemy import CheckConstraint, MetaData
 
 # CONSTANTS
 
-RESPONSE_404 = (
-    {
-        "record": {},
-        "errors": {
-            "record_id": "does not exist"
-        }
-    },
-    404
-)
+RESPONSE_404 = ({"record": {}, "errors": {"record_id": "does not exist"}}, 404)
 
 
 # SETUP
@@ -28,11 +19,11 @@ RESPONSE_404 = (
 load_dotenv(".env")
 
 naming_convention = {
-    "ix": 'ix_%(column_0_label)s',
+    "ix": "ix_%(column_0_label)s",
     "uq": "uq_%(table_name)s_%(column_0_name)s",
     "ck": "ck_%(table_name)s_%(constraint_name)s",
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
-    "pk": "pk_%(table_name)s"
+    "pk": "pk_%(table_name)s",
 }
 
 metadata = MetaData(naming_convention=naming_convention)
@@ -50,6 +41,7 @@ Migrate(app, db)
 
 # MODELS
 
+
 class Record(db.Model):
     __tablename__ = "records"
 
@@ -62,7 +54,9 @@ class Record(db.Model):
         CheckConstraint("humidity >= 0 AND humidity <= 100", name="humidity"),
     )
 
+
 # SCHEMAS
+
 
 class RecordSchema(Schema):
     record_id = fields.Int(dump_only=True)
@@ -77,21 +71,24 @@ class RecordSchema(Schema):
                 "humidity must be between 0 and 100 percent (inclusive)"
             )
 
+
 class QuerySchema(Schema):
     min_timestamp = fields.Float(missing=0)
     max_timestamp = fields.Float(missing=lambda: float("inf"))
+
 
 query_schema = QuerySchema()
 record_schema = RecordSchema()
 
 # API
 
+
 class RecordResource(Resource):
     def delete(self, record_id):
         record = Record.query.get(record_id)
         if not record:
             return RESPONSE_404
-        
+
         db.session.delete(record)
         db.session.commit()
 
@@ -105,7 +102,7 @@ class RecordResource(Resource):
                 "record": delete_record_schema.dump(record),
                 "errors": {},
             },
-            200
+            200,
         )
 
     def get(self, record_id):
@@ -118,7 +115,7 @@ class RecordResource(Resource):
                 "record": record_schema.dump(record),
                 "errors": {},
             },
-            200
+            200,
         )
 
     def put(self, record_id):
@@ -145,7 +142,7 @@ class RecordResource(Resource):
                 "record": record_schema.dump(record),
                 "errors": {},
             },
-            200
+            200,
         )
 
 
@@ -156,19 +153,17 @@ class RecordsResource(Resource):
         except ValidationError as e:
             return {"records": [], "errors": e.messages}, 422
 
-        records = (
-            Record.query.filter(
-                data["min_timestamp"] <= Record.timestamp,
-                data["max_timestamp"] >= Record.timestamp
-            ).all()
-        )
+        records = Record.query.filter(
+            data["min_timestamp"] <= Record.timestamp,
+            data["max_timestamp"] >= Record.timestamp,
+        ).all()
 
         return (
             {
                 "records": record_schema.dump(records, many=True),
                 "errors": {},
             },
-            200
+            200,
         )
 
     def post(self):
@@ -187,10 +182,10 @@ class RecordsResource(Resource):
 
         return (
             {
-                "record": record_schema.dump(record), 
+                "record": record_schema.dump(record),
                 "errors": {},
             },
-            201
+            201,
         )
 
 
