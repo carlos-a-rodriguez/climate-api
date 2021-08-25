@@ -1,5 +1,4 @@
 import os
-import subprocess
 
 from dotenv import load_dotenv
 from flask import Flask, request
@@ -190,15 +189,5 @@ class RecordsResource(Resource):
         )
 
 
-# TODO: remove temporary fix to migrate the database with POST
-class MigrationResource(Resource):
-    def post(self):
-        result = subprocess.run(["flask", "db", "upgrade"])
-        if result:
-            return {"success": False}, 400
-        return {"success": True}, 201
-
-
 api.add_resource(RecordResource, "/api/records/<int:record_id>")
 api.add_resource(RecordsResource, "/api/records")
-api.add_resource(MigrationResource, "/api/database/migrate")
