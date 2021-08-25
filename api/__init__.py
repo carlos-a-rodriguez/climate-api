@@ -193,7 +193,7 @@ class RecordsResource(Resource):
 # TODO: remove temporary fix to migrate the database with POST
 class MigrationResource(Resource):
     def post(self):
-        result = subprocess.run(["flask", "db", "migrate"])
+        result = subprocess.run(["flask", "db", "upgrade"])
         if result:
             return {"success": False}, 400
         return {"success": True}, 201
